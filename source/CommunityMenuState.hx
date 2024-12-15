@@ -53,7 +53,7 @@ class CommunityMenuState extends MusicBeatState
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xff6acbff);
 		add(bg);
 
-		backdrop = new FlxBackdrop(Paths.image('trollface'), 0, 0, true, true, 0, 0);
+		backdrop = new FlxBackdrop(Paths.image('trollface'), XY);
 		backdrop.antialiasing = ClientPrefs.globalAntialiasing;
 		add(backdrop);
 
