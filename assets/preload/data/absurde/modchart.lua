@@ -110,7 +110,7 @@ function onBeatHit()
         end
     end
     if curBeat < 492 then
-        for i=0,20 do
+        for i=0,getProperty('notes.length')-1 do
             setPropertyFromGroup('notes', i, 'scale.x', 0.7)
             if not getPropertyFromGroup('notes', i, 'isSustainNote') then
                 setPropertyFromGroup('notes', i, 'scale.y', 0.7)
