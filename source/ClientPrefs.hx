@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
+import flixel.math.FlxMath;
 import Controls;
 
 class ClientPrefs {
@@ -13,6 +14,7 @@ class ClientPrefs {
 	public static var showFPS:Bool = true;
 	public static var flashing:Bool = true;
 	public static var shaking:Bool = true;
+	public static var cacheOnGPU:Bool = true;
 	public static var photosensitivity:Bool = true;
 	public static var globalAntialiasing:Bool = true;
 	public static var noteSplashes:Bool = true;
@@ -120,6 +122,7 @@ class ClientPrefs {
 		FlxG.save.data.showFPS = showFPS;
 		FlxG.save.data.flashing = flashing;
 		FlxG.save.data.shaking = shaking;
+		FlxG.save.data.cacheOnGPU = cacheOnGPU;
 		FlxG.save.data.photosensitivity = photosensitivity;
 		FlxG.save.data.globalAntialiasing = globalAntialiasing;
 		FlxG.save.data.noteSplashes = noteSplashes;
@@ -183,6 +186,9 @@ class ClientPrefs {
 		if(FlxG.save.data.shaking != null) {
 			shaking = FlxG.save.data.shaking;
 		}
+		if(FlxG.save.data.cacheOnGPU != null) {
+			cacheOnGPU = FlxG.save.data.cacheOnGPU;
+		}
 		if(FlxG.save.data.photosensitivity != null) {
 			photosensitivity = FlxG.save.data.photosensitivity;
 		}
@@ -198,15 +204,23 @@ class ClientPrefs {
 		if(FlxG.save.data.shaders != null) {
 			shaders = FlxG.save.data.shaders;
 		}
-		if(FlxG.save.data.framerate != null) {
-			framerate = FlxG.save.data.framerate;
-			if(framerate > FlxG.drawFramerate) {
-				FlxG.updateFramerate = framerate;
-				FlxG.drawFramerate = framerate;
-			} else {
-				FlxG.drawFramerate = framerate;
-				FlxG.updateFramerate = framerate;
-			}
+		#if (!html5 && !switch)
+
+		if(FlxG.save.data.framerate == null) {
+			final refreshRate:Int = FlxG.stage.application.window.displayMode.refreshRate;
+			framerate = Std.int(FlxMath.bound(refreshRate, 60, 240));
+		}
+		#end
+
+		if(framerate > FlxG.drawFramerate)
+		{
+			FlxG.updateFramerate = framerate;
+			FlxG.drawFramerate = framerate;
+		}
+		else
+		{
+			FlxG.drawFramerate = framerate;
+			FlxG.updateFramerate = framerate;
 		}
 		/*if(FlxG.save.data.cursing != null) {
 			cursing = FlxG.save.data.cursing;
