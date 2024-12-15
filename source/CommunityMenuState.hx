@@ -55,6 +55,9 @@ class CommunityMenuState extends MusicBeatState
 
 		backdrop = new FlxBackdrop(Paths.image('trollface'), XY);
 		backdrop.antialiasing = ClientPrefs.globalAntialiasing;
+		backdrop.scrollFactor.set(0, 0);
+		backdrop.x = 0;
+		backdrop.y = 0;
 		add(backdrop);
 
 		terry = new FlxSprite(846, FlxG.height + 10).loadGraphic(Paths.image('communitymenu/terry'));
