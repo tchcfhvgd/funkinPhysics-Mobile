@@ -5,6 +5,7 @@ import flixel.math.FlxPoint;
 import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
 import openfl.geom.Rectangle;
 import flixel.math.FlxRect;
+import openfl.display3D.textures.RectangleTexture;
 import haxe.xml.Access;
 import openfl.system.System;
 import flixel.FlxG;
