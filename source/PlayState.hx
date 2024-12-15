@@ -520,8 +520,8 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			GameOverSubstate.loopSoundName = 'gameOver${pauseMusicPerSongMap.get(SONG.song.toLowerCase());}';
-			GameOverSubstate.endSoundName = 'gameOver${pauseMusicPerSongMap.get(SONG.song.toLowerCase());}End';
+			GameOverSubstate.loopSoundName = 'gameOver${pauseMusicPerSongMap.get(SONG.song.toLowerCase())}';
+			GameOverSubstate.endSoundName = 'gameOver${pauseMusicPerSongMap.get(SONG.song.toLowerCase())}End';
 		}		
 
 		curStage = SONG.stage;
