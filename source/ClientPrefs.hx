@@ -14,7 +14,7 @@ class ClientPrefs {
 	public static var showFPS:Bool = true;
 	public static var flashing:Bool = true;
 	public static var shaking:Bool = true;
-	public static var cacheOnGPU:Bool = true;
+	public static var cacheOnGPU:Bool = false;
 	public static var photosensitivity:Bool = true;
 	public static var globalAntialiasing:Bool = true;
 	public static var noteSplashes:Bool = true;
