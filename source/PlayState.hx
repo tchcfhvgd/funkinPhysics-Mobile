@@ -625,11 +625,17 @@ class PlayState extends MusicBeatState
 			case 'troll-house-mad':
 				FlxG.camera.bgColor = 0xFFff0202;
 				
-				noEscape1 = new FlxBackdrop(Paths.image('backgrounds/troll-house-mad/Window text_'), 0.9, 0.9, false, true, 0, 797);
+				noEscape1 = new FlxBackdrop(Paths.image('backgrounds/troll-house-mad/Window text_'), Y);
+				noEscape1.scrollFactor.set(0.9, 0.9);
+		noEscape1.x = 0;
+		noEscape1.y = 797;
 				noEscape1.setPosition(915, -345);
 				noEscape1.antialiasing = ClientPrefs.globalAntialiasing;
 				add(noEscape1);
-				noEscape2 = new FlxBackdrop(Paths.image('backgrounds/troll-house-mad/Window text_'), 0.9, 0.9, false, true, 0, 797);
+				noEscape2 = new FlxBackdrop(Paths.image('backgrounds/troll-house-mad/Window text_'), Y);
+				noEscape2.scrollFactor.set(0.9, 0.9);
+		noEscape2.x = 0;
+		noEscape2.y = 797;
 				noEscape2.setPosition(915, -345 - 797);
 				noEscape2.antialiasing = ClientPrefs.globalAntialiasing;
 				add(noEscape2);
@@ -4604,7 +4610,9 @@ class PlayState extends MusicBeatState
 		}
 		bg.scrollFactor.set();
 		add(bg);
+		#if desktop
 		FlxTransWindow.getWindowsTransparent();
+		#end
 	}
 
 	function popupWindow(customWidth:Int, customHeight:Int, ?customX:Int, ?customY:Int, ?customName:String) {
