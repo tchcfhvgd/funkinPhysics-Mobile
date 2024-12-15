@@ -49,7 +49,7 @@ jobs:
           haxelib install openfl
           haxelib install flixel 5.5.0
           haxelib install flixel-tools
-          haxelib install flixel-ui
+          haxelib install flixel-ui 2.5.0
           haxelib install flixel-addons 3.2.1
           haxelib install tjson
           haxelib install hxCodec 2.6.1
