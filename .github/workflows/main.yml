@@ -55,7 +55,7 @@ jobs:
           haxelib install hxCodec 2.6.1
           haxelib install hxjsonast
           haxelib install hscript
-          haxelib git linc_luajit https://github.com/mcagabe19-stuff/linc_luajit-rewriten
+          haxelib git linc_luajit https://github.com/MobilePorting/linc_luajit
           haxelib install extension-androidtools
           haxelib install hxcpp-debug-server
           haxelib list
