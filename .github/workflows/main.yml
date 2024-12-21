@@ -52,7 +52,7 @@ jobs:
           haxelib install flixel-ui
           haxelib install flixel-addons
           haxelib install tjson
-          haxelib install hxCodec 2.6.1
+          haxelib install hxvlc 1.7.1
           haxelib install hxjsonast
           haxelib install hscript
           haxelib git linc_luajit https://github.com/MobilePorting/linc_luajit
