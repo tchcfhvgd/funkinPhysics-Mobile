@@ -13,6 +13,10 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+#if hxvlc
+import hxvlc.flixel.*;
+import hxvlc.util.*;
+#end
 
 class GameOverSubstateAwestruck extends MusicBeatSubstate
 {
@@ -22,7 +26,7 @@ class GameOverSubstateAwestruck extends MusicBeatSubstate
 	var camFollowPos:FlxObject;
 	var updateCamera:Bool = false;
 
-	var wtfMadnessCombat:VideoSpriteVolFix;
+	var wtfMadnessCombat:FlxVideoSprite;
 	var deadBF:FlxSprite;
 	var buttonRetry:FlxSprite;
 	var buttonLeave:FlxSprite;
@@ -53,18 +57,19 @@ class GameOverSubstateAwestruck extends MusicBeatSubstate
 		stupid.scroll.set();
 		stupid.target = null;
 
-		wtfMadnessCombat = new VideoSpriteVolFix(160);
+		wtfMadnessCombat = new FlxVideoSprite(160);
+		wtfMadnessCombat.load(Paths.video('${PlayState.SONG.song.toLowerCase()}GameOver'));
 		new FlxTimer().start(2, function(tmr:FlxTimer)
 		{
-			wtfMadnessCombat.playVideo(Paths.video('${PlayState.SONG.song.toLowerCase()}GameOver'));
+			wtfMadnessCombat.play();
 		});
 		wtfMadnessCombat.cameras = [stupid];
 		//wtfMadnessCombat.setGraphicSize(Std.int(wtfMadnessCombat.width * 1.5)); //why does this just not work
 		//wtfMadnessCombat.updateHitbox();
-		wtfMadnessCombat.finishCallback = function()
+		wtfMadnessCombat.bitmap.onEndReached.add(function()
 		{
 			endVidBullshit();
-		}
+		}, true);
 		add(wtfMadnessCombat);
 
 		deadBF = new FlxSprite(555, 403);
