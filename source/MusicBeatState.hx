@@ -27,10 +27,15 @@ class MusicBeatState extends FlxUIState
 	private var curDecBeat:Float = 0;
 	private var controls(get, never):Controls;
 
+	public static var camBeat:FlxCamera;
+
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
+	var _psychCameraInitialized:Bool = false;
 	override function create() {
+		camBeat = FlxG.camera;
+		
 		if(!_psychCameraInitialized) initPsychCamera();
 		
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;
@@ -40,7 +45,7 @@ class MusicBeatState extends FlxUIState
 			openSubState(new CustomFadeTransition(0.6, true));
 		}
 		FlxTransitionableState.skipNextTransOut = false;
-		timePassedOnState = 0;
+		//timePassedOnState = 0;
 	}
 
 	public function initPsychCamera():PsychCamera
@@ -53,12 +58,12 @@ class MusicBeatState extends FlxUIState
 		return camera;
 	}
 
-	public static var timePassedOnState:Float = 0;
+	//public static var timePassedOnState:Float = 0;
 	override function update(elapsed:Float)
 	{
 		//everyStep();
 		var oldStep:Int = curStep;
-		timePassedOnState += elapsed;
+		//timePassedOnState += elapsed;
 
 		updateCurStep();
 		updateBeat();
