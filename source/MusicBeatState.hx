@@ -27,13 +27,12 @@ class MusicBeatState extends FlxUIState
 	private var curDecBeat:Float = 0;
 	private var controls(get, never):Controls;
 
-	public static var camBeat:FlxCamera;
-
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
 	override function create() {
-		camBeat = FlxG.camera;
+		if(!_psychCameraInitialized) initPsychCamera();
+		
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;
 		super.create();
 
@@ -42,6 +41,16 @@ class MusicBeatState extends FlxUIState
 		}
 		FlxTransitionableState.skipNextTransOut = false;
 		timePassedOnState = 0;
+	}
+
+	public function initPsychCamera():PsychCamera
+	{
+		var camera = new PsychCamera();
+		FlxG.cameras.reset(camera);
+		FlxG.cameras.setDefaultDrawTarget(camera, true);
+		_psychCameraInitialized = true;
+		//trace('initialized psych camera ' + Sys.cpuTime());
+		return camera;
 	}
 
 	public static var timePassedOnState:Float = 0;
