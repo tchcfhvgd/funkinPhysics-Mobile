@@ -3612,7 +3612,7 @@ class PlayState extends MusicBeatState
 		youtoozDeathVideo.load(Paths.video('youtoozresized'));
 		youtoozDeathVideo.play();
 		youtoozDeathVideo.cameras = [camOther];
-	    youtoozDeathVideo.onEndReached.add(function()
+	    youtoozDeathVideo.bitmap.onEndReached.add(function()
 	    {
 	       MusicBeatState.resetState();
 			callOnLuas('onGameOverConfirm', [true]);
@@ -4382,7 +4382,7 @@ class PlayState extends MusicBeatState
 						canPause = false;
 						#if VIDEOS_ALLOWED
 		                weegeeVideo.play();
-					    weegeeVideo.onEndReached.add(function()
+					    weegeeVideo.bitmap.onEndReached.add(function()
 		{
 		    weegeeVideo.destroy();
 		}, true);
@@ -6662,7 +6662,7 @@ class PlayState extends MusicBeatState
 	    video.load(filepath);
 		video.play();
 		add(video);
-	    video.onEndReached.add(function()
+	    video.bitmap.onEndReached.add(function()
 		{
 			return;
 		}, true);
