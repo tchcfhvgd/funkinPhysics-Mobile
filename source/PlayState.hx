@@ -422,7 +422,7 @@ class PlayState extends MusicBeatState
 		cpuControlled = ClientPrefs.getGameplaySetting('botplay', false);
 
 		// var gameCam:FlxCamera = FlxG.camera;
-		camGame = new initPsychCamera();
+		camGame = initPsychCamera();
 		//camGame.setSize(FlxG.width * 2, FlxG.height* 2); breaks scroll speed on some bgs maybe in the future? thansk anyway duskie / dsides
 		//camGame.setPosition(-1 * (FlxG.width / 2), -1 * (FlxG.width / 4));
 		camHUD = new FlxCamera();
