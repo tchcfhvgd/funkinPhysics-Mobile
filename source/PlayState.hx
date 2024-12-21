@@ -84,20 +84,10 @@ import sys.io.File;
 #end
 
 #if VIDEOS_ALLOWED
-//#if (hxCodec >= "2.6.1") 
-//import hxcodec.VideoHandler as MP4Handler;
-//import hxcodec.VideoSprite as MP4Sprite;
-//#elseif (hxCodec == "2.6.0") 
-//import VideoHandler as MP4Handler;
-//import VideoSprite as MP4Sprite;
-//#else 
-//import vlc.MP4Handler; 
-//import vlc.MP4Sprite; 
-//#end
-
-// CODEC 2.5.1 BREAKS THIS SHIT USE 2.6.1 ITS SO MUCH BETTER .5 IS A FUCK KILL EM ALL 1984 I FORGET THE REST IM GOING TO UPDATE TO 3.X.X IN THE NEXT UPDATE USE 2.6.1 FO NOW
-import hxcodec.VideoHandler;
-import hxcodec.VideoSprite;
+#if hxvlc
+import hxvlc.flixel.*;
+import hxvlc.util.*;
+#end
 #end
 
 using StringTools;
@@ -326,7 +316,7 @@ class PlayState extends MusicBeatState
 	var rope:BGSprite;
 	var bubbles:BGSprite;
 	#if VIDEOS_ALLOWED
-	var weegeeVideo:VideoSprite;
+	var weegeeVideo:FlxVideoSprite;
 	#end
 
 	public var songScore:Int = 0;
@@ -1112,17 +1102,9 @@ class PlayState extends MusicBeatState
 				add(bubbles);
 
 				#if VIDEOS_ALLOWED
-				//load the video offscreen because im too lazy to figure out video caching
-				var fakeWeegeeVideo:VideoSprite = new VideoSprite();
-				fakeWeegeeVideo.playVideo(Paths.video('mama_luigi_for_you_mario'));
-				fakeWeegeeVideo.graphicLoadedCallback = function()
-				{
-					fakeWeegeeVideo.bitmap.pause();
-					fakeWeegeeVideo.bitmap.dispose();
-					fakeWeegeeVideo.kill();
-				}
-				weegeeVideo = new VideoSprite(800, 1000);
+				weegeeVideo = new FlxVideoSprite(800, 1000);
 				weegeeVideo.setGraphicSize(Std.int(weegeeVideo.width * 3.75));
+				weegeeVideo.load(Paths.video('mama_luigi_for_you_mario'));
 				//precacheList.set('mama_luigi_for_you_mario', 'video');
 				//weegeeVideo.playVideo(Paths.video('mama_luigi_for_you_mario'));
 				weegeeVideo.alpha = 0.00001;
@@ -2050,14 +2032,16 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
-		var video:VideoHandlerVolFix = new VideoHandlerVolFix();
-		video.playVideo(filepath);
-		video.finishCallback = function()
+		var video:FlxVideo = new FlxVideo();
+		video.load(filepath);
+		video.play();
+		video.onEndReached.add(function()
 		{
+			video.dispose();
 			startAndEnd();
 			return;
-		}
-		
+		}, true);
+
 		#else
 		FlxG.log.warn('Platform not supported!');
 		startAndEnd();
@@ -3624,14 +3608,15 @@ class PlayState extends MusicBeatState
 			vocals.destroy();
 		}
 		canPause = false;
-		var youtoozDeathVideo:VideoSpriteVolFix = new VideoSpriteVolFix();
-		youtoozDeathVideo.playVideo(Paths.video('youtoozresized'));
+		var youtoozDeathVideo:FlxVideoSprite = new FlxVideoSprite();
+		youtoozDeathVideo.load(Paths.video('youtoozresized'));
+		youtoozDeathVideo.play();
 		youtoozDeathVideo.cameras = [camOther];
-		youtoozDeathVideo.finishCallback = function()
-		{
-			MusicBeatState.resetState();
+	    youtoozDeathVideo.onEndReached.add(function()
+	    {
+	       MusicBeatState.resetState();
 			callOnLuas('onGameOverConfirm', [true]);
-		}
+		}, true);
 		add(youtoozDeathVideo);
 		#else
 		FlxG.log.warn('Platform not supported!');
@@ -4396,21 +4381,11 @@ class PlayState extends MusicBeatState
 					case 'play':
 						canPause = false;
 						#if VIDEOS_ALLOWED
-						var filepath:String = Paths.video('mama_luigi_for_you_mario');
-						#if sys
-						if(!FileSystem.exists(filepath))
-						#else
-						if(!OpenFlAssets.exists(filepath))
-						#end
-						{
-							FlxG.log.warn('Couldnt find the YTP :(');
-							return;
-						}
-						weegeeVideo.playVideo(Paths.video('mama_luigi_for_you_mario'));
-						weegeeVideo.finishCallback = function()
-						{
-							weegeeVideo.destroy();
-						}
+		                weegeeVideo.play();
+					    weegeeVideo.onEndReached.add(function()
+		{
+		    weegeeVideo.destroy();
+		}, true);
 						#else
 						FlxG.log.warn('Platform not supported!');
 						return;
@@ -4423,7 +4398,6 @@ class PlayState extends MusicBeatState
 					case 'remove':
 						canPause = true;
 						#if VIDEOS_ALLOWED
-						weegeeVideo.visible = false;
 						weegeeVideo.alpha = 0.00001; //fraction alphas dont work ithink 
 						#end
 				}
@@ -6684,13 +6658,14 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
-		var video:VideoSpriteVolFix = new VideoSpriteVolFix();
-		video.playVideo(filepath);
+		var video:FlxVideoSprite = new FlxVideoSprite();
+	    video.load(filepath);
+		video.play();
 		add(video);
-		video.finishCallback = function()
+	    video.onEndReached.add(function()
 		{
 			return;
-		}
+		}, true);
 		
 		#else
 		FlxG.log.warn('Platform not supported!');
