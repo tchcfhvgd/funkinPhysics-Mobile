@@ -5,9 +5,11 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
 import openfl.Assets;
+import openfl.system.System;
 import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
+import flixel.FlxSprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
 
@@ -78,7 +80,7 @@ class Main extends Sprite
 		#end
 	}
 
-	public function new()
+        public function new()
 	{
 		super();
 
@@ -88,7 +90,7 @@ class Main extends Sprite
 		#elseif ios
 		Sys.setCwd(lime.system.System.applicationStorageDirectory);
 		#end
-		
+
 		if (stage != null)
 		{
 			init();
@@ -138,9 +140,29 @@ class Main extends Sprite
 		#if CRASH_HANDLER
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 		#end
-	//	Transparency.setTransparency("Friday Night Funkin': Psych Engine", 0x00000000);
+	
+		// shader coords fix
+		FlxG.signals.gameResized.add(function (w, h) {
+		     if (FlxG.cameras != null) {
+			   for (cam in FlxG.cameras.list) {
+				if (cam != null && cam.filters != null)
+					resetSpriteCache(cam.flashSprite);
+			   }
+			}
+
+			if (FlxG.game != null)
+			resetSpriteCache(FlxG.game);
+		});
+		//Transparency.setTransparency("Friday Night Funkin': Psych Engine", 0x00000000);
 	}
 
+	static function resetSpriteCache(sprite:Sprite):Void {
+		@:privateAccess {
+		        sprite.__cacheBitmap = null;
+			sprite.__cacheBitmapData = null;
+		}
+	}
+	
 	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!
 	// very cool person for real they don't get enough credit for their work
 	#if CRASH_HANDLER
@@ -181,7 +203,7 @@ class Main extends Sprite
 		#if desktop
 		DiscordClient.shutdown();
 		#end
-		Sys.exit(1);
+		System.exit(1);
 	}
 	#end
 }
